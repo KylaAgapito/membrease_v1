@@ -7,14 +7,16 @@
 </head>
 
 <body>
-    <h1>Welcome to My Kiko Pangilinan</h1>
-    <form action="process.php" method="POST">
-        <input type="text" name="name" placeholder="Enter your name">
-        <input type="email" name="email" placeholder="Enter your email">
-        <button type="submit">Submit</button>
+    <h1>Welcome to MembrEase V1!</h1>
+    <h2>Login your PhilHealth Account</h2>
+    <form action="verify.php" method="POST">
+        <label for="PIN">PIN:</label>
+        <input type="text" name="PIN" placeholder="Enter your PIN">
+        <label for="memberName">Member Name:</label>
+        <input type="text" name="memberName" placeholder="First Name M.I. Last Name">
+        <button type="submit">Login</button>
     </form>
 
-    <h2>Data from Database</h2>
 
 </body>
 
