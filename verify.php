@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: welcome.php"); // Redirect to another screen
         exit();
     } else {
-        echo "Invalid PIN or Name. Please try again.";
+        echo "Invalid PIN or Password. Please try again.";
     }
 
     $stmt->close();

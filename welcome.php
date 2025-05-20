@@ -8,7 +8,7 @@ if (!isset($_SESSION['userPIN'])) {
     exit();
 }
 
-$PIN = $_SESSION['userPIN']; // Get the logged-in user's PIN
+$PIN = $_SESSION['userPIN']; // Get the logged-in user's PIN and to prevent SQL injection. $_session is a reserved keyword
 
 // Fetch person details
 $personQuery = "SELECT * FROM person WHERE PIN = ?";

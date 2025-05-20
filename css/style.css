@@ -1,10 +1,143 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: Roboto, Poppins;
 }
-input, button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
+
+button:hover{
+    cursor: pointer;
+}
+
+.parent{
+    height: 100svh;
+    display: grid;
+    grid-template-columns: auto auto;
+
+}
+
+.section-1{
+    background-image: url(../assets/cow.png);
+    background-position: center;
+    background-size: cover;
+
+}
+
+.section-2{
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem;
+}
+
+.title{
+    font-size: 3.25rem;
+    font-weight: bold;
+    margin-bottom: 3.25rem;
+    color: #141414 ;
+}
+
+.section-2 input::-webkit-input-placeholder{
+    font-size: 1rem;
+}
+ 
+.section-2 input{
+    padding: 1rem;
+    width: auto;
+}
+
+.pin{
+    margin-bottom: 1.25rem;
+}
+
+.memberName{
+    margin-bottom: 0.75rem;
+}
+
+.pin, .memberName{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: black;
+    
+}
+
+.pin input, .memberName input{
+    border: solid 1px #07665340;
+}
+
+.pin input:focus, .memberName input:focus{
+    border: solid 1px #076653;
+    outline: none;
+}
+
+.user-help{
+    display: flex;
+    align-items: center;
+    width: auto;
+    justify-content: space-between;
+}
+
+.remember-me{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.remember-me input{
+    accent-color: #076653 ;
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.remember-me input:checked{
+    background-color: #076653;
+    border-color: #076653;
+}
+
+.forgot-password{
+    display: flex;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #076653;
+}
+
+.log-in, .register{
+    padding: 1rem;
+    width: auto;
+    border: none;
+    font-size: 20px;
+}
+
+.log-in{
+    background-color: #076653;
+    margin-bottom: 3.75rem;
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+.log-in:hover{
+    background-color: #088169;
+}
+
+.log-in:active{
+    background-color: #0ba485;
+    transform: scale(0.99);
+}
+
+.register{
+    border: #076653 solid 2px;
+    background-color: #ffffff;
+    color: #076653;
+    transition: all 0.2s ease-in-out;
+}
+
+.register:active{
+    transform: scale(0.99);
 }
