@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 
 body{
     padding: 0;
@@ -29,6 +32,7 @@ button:hover{
     flex-direction: column;
     justify-content: center;
     padding: 5rem;
+    gap: 2rem;
 }
 
 .title{
@@ -108,16 +112,19 @@ button:hover{
     color: #076653;
 }
 
-.log-in, .register{
+.log-in, .register {
     padding: 1rem;
-    width: auto;
+    width: 100%;
     border: none;
     font-size: 20px;
+    display: block; /* Ensures both buttons behave consistently */
 }
+
 
 .log-in{
     background-color: #076653;
-    margin-bottom: 3.75rem;
+    /* margin-right: 1rem;
+    margin-bottom: 3.75rem; */
     color: #ffffff;
     transition: all 0.2s ease-in-out;
 }
@@ -131,12 +138,14 @@ button:hover{
     transform: scale(0.99);
 }
 
-.register{
+.register {
     border: #076653 solid 2px;
     background-color: #ffffff;
     color: #076653;
     transition: all 0.2s ease-in-out;
+    margin-bottom: 3.75rem; /* Matching login button spacing */
 }
+
 
 .register:active{
     transform: scale(0.99);

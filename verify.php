@@ -9,11 +9,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare a query to verify user credentials
     $sql = "SELECT * FROM person WHERE PIN = ? AND memberName = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $PIN, $memberName);
+    $stmt->bind_param("ss", $PIN, $memberName); //also prevents sql injection
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
+    if ($result->num_rows > 0) { //"->" means fetch if the app uses a database
         $userData = $result->fetch_assoc(); // Fetch user details
 
         // Store user details in session

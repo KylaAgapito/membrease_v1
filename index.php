@@ -73,7 +73,12 @@
             </form>
 
 
-            <button class="register">No account yet? Register</button>
+            <button class="register" 
+            type = "submit"
+            onclick="window.location.href='register.php'">
+            No account yet? Register!
+        
+            </button>
 
             
         </div>
