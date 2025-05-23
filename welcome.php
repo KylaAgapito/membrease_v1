@@ -11,26 +11,26 @@ if (!isset($_SESSION['userPIN'])) {
 $PIN = $_SESSION['userPIN']; // Get the logged-in user's PIN and prevent SQL injection
 
 // Fetch person details
-$personQuery = "SELECT * FROM person WHERE PIN = ?";
-$stmt = $conn->prepare($personQuery);
+$memberQuery = "SELECT * FROM memberdetails WHERE PIN = ?";
+$stmt = $conn->prepare($memberQuery);
 $stmt->bind_param("s", $PIN);
 $stmt->execute();
-$personResult = $stmt->get_result();
-$personData = $personResult->fetch_assoc() ?? [];
+$memberResult = $stmt->get_result();
+$memberData = $memberResult->fetch_assoc() ?? [];
 
 // Fetch spouse details if spouseID exists
 $spouseData = null;
-if (!empty($personData['spouseID'])) {
-    $spouseQuery = "SELECT * FROM spouse WHERE spouseID = ?";
+if (!empty($memberData['spouseID'])) {
+    $spouseQuery = "SELECT * FROM spousedetails WHERE spouseID = ?";
     $stmt = $conn->prepare($spouseQuery);
-    $stmt->bind_param("s", $personData['spouseID']);
+    $stmt->bind_param("s", $memberData['spouseID']);
     $stmt->execute();
     $spouseResult = $stmt->get_result();
     $spouseData = $spouseResult->fetch_assoc() ?? [];
 }
 
 // Fetch all dependents
-$dependentQuery = "SELECT * FROM dependent WHERE PIN = ?";
+$dependentQuery = "SELECT * FROM dependents WHERE PIN = ?";
 $stmt = $conn->prepare($dependentQuery);
 $stmt->bind_param("s", $PIN);
 $stmt->execute();
@@ -52,10 +52,10 @@ $civil_status_map = [
 ];
 
 // Convert the sex attribute
-$sex_display = $sex_map[$personData['sex']] ?? 'Unknown';
+$sex_display = $sex_map[$memberData['sex']] ?? 'Unknown';
 
 // Convert the civil status attribute
-$civil_status_display = $civil_status_map[$personData['civilStatus']] ?? 'Unknown';
+$civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknown';
 ?>
 
 <!DOCTYPE html>
@@ -66,35 +66,35 @@ $civil_status_display = $civil_status_map[$personData['civilStatus']] ?? 'Unknow
 </head>
 <body>
     <h1>Member Information</h1>
-    <h2>PhilHealth Identification Number: <?php echo htmlspecialchars($personData['PIN'] ?? "Not available"); ?></h2>
-    <h2>Member Name: <?php echo htmlspecialchars($personData['memberName'] ?? "Not available"); ?></h2>
+    <h2>PhilHealth Identification Number: <?php echo htmlspecialchars($memberData['PIN'] ?? "Not available"); ?></h2>
+    <h2>Member Name: <?php echo htmlspecialchars($memberData['memberName'] ?? "Not available"); ?></h2>
 
     <h3>Personal Information</h3>
     <h4>Basic Information:</h4>
     <ul>
-        <li><strong>Birthdate:</strong> <?php echo htmlspecialchars($personData['birthdate'] ?? "Not available"); ?></li>
-        <li><strong>Birthplace:</strong> <?php echo htmlspecialchars($personData['birthplace'] ?? "Not available"); ?></li>
+        <li><strong>Birthdate:</strong> <?php echo htmlspecialchars($memberData['birthdate'] ?? "Not available"); ?></li>
+        <li><strong>Birthplace:</strong> <?php echo htmlspecialchars($memberData['birthplace'] ?? "Not available"); ?></li>
         <li><strong>Sex:</strong> <?php echo htmlspecialchars($sex_display); ?></li>
         <li><strong>Civil Status:</strong> <?php echo htmlspecialchars($civil_status_display); ?></li>
-        <li><strong>Citizenship:</strong> <?php echo htmlspecialchars($personData['citizenship'] ?? "Not available"); ?></li>
-        <li><strong>Address:</strong> <?php echo htmlspecialchars($personData['permaHomeAddress'] ?? "Not available"); ?></li>
-        <li><strong>Mailing Address:</strong> <?php echo htmlspecialchars($personData['mailingAddress'] ?? "Not available"); ?></li>
-        <li><strong>Mother Name:</strong> <?php echo htmlspecialchars($personData['motherMaidenName'] ?? "Not available"); ?></li>
+        <li><strong>Citizenship:</strong> <?php echo htmlspecialchars($memberData['citizenship'] ?? "Not available"); ?></li>
+        <li><strong>Address:</strong> <?php echo htmlspecialchars($memberData['permaHomeAddress'] ?? "Not available"); ?></li>
+        <li><strong>Mailing Address:</strong> <?php echo htmlspecialchars($memberData['mailingAddress'] ?? "Not available"); ?></li>
+        <li><strong>Mother Name:</strong> <?php echo htmlspecialchars($memberData['motherMaidenName'] ?? "Not available"); ?></li>
     </ul>
     <h4>Contact Information:</h4>
     <ul>
-        <li><strong>Home Phone Number:</strong> <?php echo htmlspecialchars($personData['homePhoneNo'] ?? "Not available"); ?></li>
-        <li><strong>Direct Number:</strong> <?php echo htmlspecialchars($personData['directNo'] ?? "Not available"); ?></li>
-        <li><strong>Email Address:</strong> <?php echo htmlspecialchars($personData['emailAdd'] ?? "Not available"); ?></li>
+        <li><strong>Home Phone Number:</strong> <?php echo htmlspecialchars($memberData['homePhoneNo'] ?? "Not available"); ?></li>
+        <li><strong>Direct Number:</strong> <?php echo htmlspecialchars($memberData['directNo'] ?? "Not available"); ?></li>
+        <li><strong>Email Address:</strong> <?php echo htmlspecialchars($memberData['emailAdd'] ?? "Not available"); ?></li>
     </ul>
 
     <h4>Contributor Information:</h4>
     <ul>
-        <li><strong>Preferred Konsulta Provider</strong> <?php echo htmlspecialchars($personData['pkp'] ?? "Not available"); ?> </li>
-        <li><strong>Contributor Type:</strong> <?php echo htmlspecialchars($personData['contributorType'] ?? "Not available"); ?></li>
-        <li><strong>Profession:</strong> <?php echo htmlspecialchars($personData['profession'] ?? "Not available"); ?></li>
-        <li><strong>Monthly Income:</strong> <?php echo "₱" . number_format($personData['monthlyIncome'] ?? 0, 2); ?></li>
-        <li><strong>Income Proof:</strong> <?php echo htmlspecialchars($personData['incomeProof'] ?? "Not available"); ?></li>
+        <li><strong>Preferred Konsulta Provider</strong> <?php echo htmlspecialchars($memberData['pkp'] ?? "Not available"); ?> </li>
+        <li><strong>Contributor Type:</strong> <?php echo htmlspecialchars($memberData['contributorType'] ?? "Not available"); ?></li>
+        <li><strong>Profession:</strong> <?php echo htmlspecialchars($memberData['profession'] ?? "Not available"); ?></li>
+        <li><strong>Monthly Income:</strong> <?php echo "₱" . number_format($memberData['monthlyIncome'] ?? 0, 2); ?></li>
+        <li><strong>Income Proof:</strong> <?php echo htmlspecialchars($memberData['incomeProof'] ?? "Not available"); ?></li>
     </ul>
     
     <?php if ($spouseData): ?>

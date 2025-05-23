@@ -4,12 +4,12 @@ include 'config.php'; // Ensure this file contains database connection code
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $PIN = $_POST['PIN'];
-    $memberName = $_POST['memberName'];
+    $user_password = $_POST['user_password'];
 
     // Prepare a query to verify user credentials
-    $sql = "SELECT * FROM person WHERE PIN = ? AND memberName = ?";
+    $sql = "SELECT * FROM registration WHERE PIN = ? AND user_password = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $PIN, $memberName); //also prevents sql injection
+    $stmt->bind_param("ss", $PIN, $user_password); //also prevents sql injection
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Store user details in session
         $_SESSION['userPIN'] = $userData['PIN'];
-        $_SESSION['userName'] = $userData['memberName'];
+        $_SESSION['user_password'] = $userData['user_password'];
 
         header("Location: welcome.php"); // Redirect to another screen
         exit();

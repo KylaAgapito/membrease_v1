@@ -55,7 +55,7 @@
 
                 <div class="memberName">
                     <div>Password</div>
-                    <input type="text" name="memberName" placeholder="Enter your password"> <!-- take note: memberName == Password -->
+                    <input type="text" name="user_password" placeholder="Enter your password"> <!-- take note: memberName == Password -->
                 </div>
 
                 <div class="user-help">
@@ -66,7 +66,7 @@
                     </div>
                     
                     <div class="forgot-password">
-                        <a href="">Forgot Password?</a>
+                        <a href="#" onclick="alert('Forgot Password feature isn\'t available yet.'); return false;">Forgot Password?</a>
                     </div>
                 </div>
                 <button class="log-in" type ="submit">Login</button>
