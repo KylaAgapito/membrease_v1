@@ -25,7 +25,7 @@
     </div>
   </div>
 
- <form id="registerForm" action="password.php" method="POST" class="info">
+ <form id="registerForm" action="register.php" method="POST" class="info">
     <div class="introRow">
       <h2 class="basicInfo">Help us get to know you better</h2>
       <h4 class="desc">Enter your personal information to create an account.</h4>
@@ -35,7 +35,7 @@
       <div class="PIN">
         <p>PhilHealth Identification Number*</p>
         <input
-          type="text" placeholder="PIN"
+          type="text" placeholder="PIN" name = "PIN"
           required
         />
       </div>
@@ -43,7 +43,7 @@
       <div class="fname">
         <p>First Name*</p>
         <input
-          type="text" placeholder="FIRST NAME"
+          type="text" placeholder="FIRST NAME" name = "first_name"
           required
         />
       </div>
@@ -53,14 +53,14 @@
       <div class="mname">
         <p>Middle Name</p>
         <input
-          type="text" placeholder="MIDDLE NAME"
+          type="text" placeholder="MIDDLE NAME" name = "middle_name"
         />
       </div>
 
       <div class="lname">
         <p>Last Name*</p>
         <input
-          type="text" placeholder="LAST NAME"
+          type="text" placeholder="LAST NAME" name = "last_name"
           required
         />
       </div>
@@ -70,7 +70,7 @@
       <div class="dob">
         <p>Date of Birth*</p>
         <input
-          type="date"
+          type="date" name="birthdate"
           required
         />
       </div>
@@ -88,14 +88,16 @@
       <div class="email">
         <p>Email Address*</p>
         <input
-          type="text" placeholder="EMAIL ADDRESS"
+          type="text" placeholder="EMAIL ADDRESS" name = "emailAdd"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           required
         />
       </div>
       <div class="number">
         <p>Mobile Number*</p>
         <input
-          type="text" placeholder="MOBILE NUMBER"
+          type="text" placeholder="MOBILE NUMBER" name = "mobileNo"
+          pattern="[0-9]{10}"
           required
         />
       </div>
@@ -110,7 +112,7 @@
         Already have an account?
       </button>
 
-      <button class="next" type="submit">
+      <button class="next" type="submit" name="continue">
         Continue
         <div class="arrow-wrapper">
           <div class="arrow"></div>
@@ -159,6 +161,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
 
         if ($stmt->execute()) {
             $success = "Account created! You can now log in.";
+
+            $memberName = trim($firstName . ' ' . $middleName . ' ' . $lastName);
+
+            // Insert into memberDetails table
+            $stmt2 = $conn->prepare("INSERT INTO memberDetails (memberName, birthdate, sex, emailAdd, mobileNo) VALUES (?, ?, ?, ?, ?)");
+            $stmt2->bind_param("sssss", $memberName, $dob, $sex, $email, $mobile);
+            $stmt2->execute();
+            $stmt2->close();
         } else {
             $error = "Something went wrong.";
         }

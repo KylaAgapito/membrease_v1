@@ -1,0 +1,316 @@
+body{
+    padding: 0;
+    margin: 0;
+    font-family: Montserrat, Roboto, Poppins
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.parent{
+    height: 100svh;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 1rem 2rem;
+    background-color: #3C8A82;
+    color: #ffffff;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+}
+
+.logo-title{
+    margin-left: 12px;
+}
+
+.logo-title > div:first-child{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo-title > div:last-child{
+    font-size: 12px;
+    font-style: italic;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.search-bar i{
+    position: absolute;
+    color: #3C8A82;
+    left: 12px;
+}
+
+.search-bar input{
+    width: 520px;
+    height: 36px;
+    padding-left: 36px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 20px;
+    border: none;
+}
+
+.account{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: solid 1px #ffffff90;
+    padding-left: 12px;
+}
+
+.profile-picture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-user{
+    font-size: 32px;
+}
+
+.member-name-id-wrapper{
+    margin-left: 8px;
+}
+
+.member-name-id-wrapper > div:first-child{
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.member-name-id-wrapper > div:last-child{
+    font-size: 12px;
+}
+
+
+.main{
+    display: grid;
+    grid-template-columns: 18% 1fr;
+    height: 100%;
+}
+
+.sidebar {
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+    color: #275853;
+    box-shadow: 4px 0 8px -2px rgba(0, 0, 0, 0.115);
+    z-index: 1;
+}
+
+
+.sidebar-title{
+    font-size: 24px;
+    font-weight: bold;
+    color: #275853;
+}
+
+.sidebar-tools{
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: 500;
+    border-top: solid 1px #275853;
+}
+
+.sidebar-tools div{
+    display: flex;
+    align-items: center;    
+    height: 40px;
+    padding: 8px;
+    margin: 8px 0px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 16px;
+}
+
+.sidebar-tools svg{
+    margin: 12px;
+}
+
+.sidebar-tools div:hover{
+    background-color: #275853;
+    color: #ffffff;
+}
+
+.sidebar-tools svg path {
+    fill: #275853;
+    transition: fill 0.2s ease-in-out;
+  }
+  
+  .sidebar-tools div:hover svg path {
+    fill: #ffffff;
+  }
+  
+
+.sidebar-tools svg:hover{
+    fill: #ffffff;
+}
+
+.about-logout{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.dashboard {
+    height: 100%; 
+    background-color: #E6F4EC;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+  }
+  
+
+.section-1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-title{
+    font-size: 24px;
+    font-weight: bold;
+    color: #275853;
+}
+
+.update-button, .cancel-button, .save-button{
+    width: 134px;
+    height: 55px;
+    background-color: #275853;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.1s ease-in-out;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.115);
+
+}
+
+.update-button:hover, .cancel-button:hover, .save-button:hover{
+    background-color: #27585399;
+}
+
+.update-button:active, .cancel-button:active, .save-button:active{
+    background-color: #275853;
+    color: #ffffff;
+}
+
+
+.section-2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 2rem;
+}
+
+.personal-information, .contact-information, .spouse-information{
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #275853;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.115);
+
+}
+
+.personal-information-title, .contact-information-title, .spouse-information-title, .update-information-title{
+    background-color: #3C8A82;
+    font-size: 24px;
+    padding: 16px 32px;
+    color: #ffffff;
+}
+
+.personal-information-list, .contact-information-list, .spouse-information-list{
+    padding: 0px 32px;
+}
+
+.personal-information-list div, .contact-information-list div, .spouse-information-list div{
+    margin: 8px 0px;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+}
+
+.personal-information-list div > :last-child, .contact-information-list div > :last-child, .spouse-information-list div > :last-child{
+    margin-left: 8px;
+    font-weight: 400;
+}
+
+.section-3{
+    display: grid;
+    height: auto;
+}
+
+
+.section-4{
+    display: flex;
+    flex-direction: column;
+}
+
+.update-information{
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #275853;
+    margin-bottom: 1rem;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.115);
+
+}
+
+.update-information-list{
+    display: flex;
+    padding: 0px 32px;
+    flex-direction: column;
+}
+
+.update-information-list > div > div{
+    display: flex;
+    align-items: center;
+    margin: 8px 0px;
+    gap: 8px;
+}
+
+.update-information-list > div > div > input{
+    padding: 4px 4px;
+    font-size: 16px;
+    border: 1px solid #3C8A82;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.update-information-list > div > p{
+    font-weight: bold;
+}
+
+.update-information-list > div > div > input:focus{
+    outline: 1px solid #275853;
+}
+
+.update-member-information, .update-contact-information, .update-spouse-information{
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: solid 1px #27585390;
+}

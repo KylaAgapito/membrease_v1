@@ -1,0 +1,221 @@
+/*
+
+hi mom
+
+*/
+
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: Montserrat, Roboto;
+    background-color: #e6f4ec;
+    color: #3c8a82;
+    font-weight: 600;
+    font-size: small;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.parent{
+    height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.section-1{
+    width: 50vw; 
+    height: 100vh; 
+    background-image: url(../assets/try.mp4);
+    background-position: center;
+    background-size: cover;
+
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem;
+}
+
+.title{
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #3c8a82 ;
+}
+
+.subtitle{
+    font-size: 15px;
+    font-style: italic;
+    margin-bottom: 27px;
+    color: #3c8a82 ;
+    font-weight: 400;
+}
+
+.section-2 input::-webkit-input-placeholder{
+    font-size: 1rem;
+}
+ 
+.section-2 input{
+    padding: 1rem;
+    width: auto;
+}
+
+.form {
+  width: 95%;
+  position: relative;
+  height: 35px;
+  padding: 5px 0; 
+  box-sizing: border-box;
+  margin-bottom: 40px;
+  color: #3c8a82;
+}
+
+.form input {
+  border: solid 2px #3c8a82;
+  border-radius: 10px;
+  font-family: Montserrat, sans-serif;
+  color: #275853;
+  background-color: #F7F9FC;
+  outline-offset: 1px;
+  padding: 5px 12px;
+  transition: 0.25s;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 100%;
+  height: 100%;
+  padding-top: 23px;
+  line-height: normal; 
+}
+
+.form label {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: #275853;
+}
+
+.form label::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  transform: translateX(-100%);
+  transition: all 0.3s ease;
+}
+
+.content-name {
+  position: absolute;
+  font-size: 14px;
+  top: 70%;
+  left: 13px;
+  transition: all 0.3s ease;
+  color: #3c8a82;
+}
+
+.form input:focus {
+  outline: none;
+}
+
+.form input:focus + .label-name .content-name,
+.form input:valid + .label-name .content-name {
+  transform: translateY(-150%);
+  font-size: 12px;
+  left: 13px;
+  margin-top: 14px;;
+  color: #3c8a82;
+}
+
+.form input:focus + .label-name::after,
+.form input:valid + .label-name::after {
+  transform: translateX(0%);
+}
+
+.user-help{
+    display: flex;
+    align-items: center;
+    width: auto;
+    justify-content: space-between;
+}
+
+.remember-me{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.remember-me input{
+    accent-color: #3C8A82 ;
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.remember-me input:checked{
+    background-color: #3C8A82;
+    border-color: #3C8A82;
+}
+
+.forgot-password{
+    display: flex;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #3C8A82;
+}
+
+.log-in, .register{
+    padding: 1rem;
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    font-family: Montserrat;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.log-in{
+    background-color: #3C8A82;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+.log-in:hover{
+    background-color: #275853;
+}
+
+.log-in:active{
+    background-color: #3C8A82;
+    transform: scale(0.99);
+}
+
+.register{
+    border: #3C8A82 solid 2px;
+    background-color: #ffffff;
+    color: #3c8a82;
+    transition: all 0.2s ease-in-out;
+}
+
+.register:active{
+    transform: scale(0.99);
+}

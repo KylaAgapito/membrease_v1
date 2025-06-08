@@ -1,6 +1,8 @@
-* {
-    box-sizing: border-box;
-}
+/*
+
+hi mom
+
+*/
 
 body{
     padding: 0;
@@ -20,7 +22,7 @@ button:hover{
 }
 
 .section-1{
-    background-image: url(../assets/cow.png);
+    background-image: url(../assets/cat.jpg);
     background-position: center;
     background-size: cover;
 
@@ -32,7 +34,6 @@ button:hover{
     flex-direction: column;
     justify-content: center;
     padding: 5rem;
-    gap: 2rem;
 }
 
 .title{
@@ -55,11 +56,11 @@ button:hover{
     margin-bottom: 1.25rem;
 }
 
-.memberName{
+.password{
     margin-bottom: 0.75rem;
 }
 
-.pin, .memberName{
+.pin, .password{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -67,12 +68,12 @@ button:hover{
     
 }
 
-.pin input, .memberName input{
-    border: solid 1px #07665340;
+.pin input, .password input{
+    border: solid 1px #27585340;
 }
 
-.pin input:focus, .memberName input:focus{
-    border: solid 1px #076653;
+.pin input:focus, .password input:focus{
+    border: solid 1px #27585390;
     outline: none;
 }
 
@@ -90,7 +91,7 @@ button:hover{
 }
 
 .remember-me input{
-    accent-color: #076653 ;
+    accent-color: #3C8A82 ;
     height: 20px;
     width: 20px;
     margin-right: 8px;
@@ -99,8 +100,8 @@ button:hover{
 }
 
 .remember-me input:checked{
-    background-color: #076653;
-    border-color: #076653;
+    background-color: #3C8A82;
+    border-color: #3C8A82;
 }
 
 .forgot-password{
@@ -109,43 +110,38 @@ button:hover{
 
 .forgot-password a {
     text-decoration: none;
-    color: #076653;
+    color: #3C8A82;
 }
 
-.log-in, .register {
+.log-in, .register{
     padding: 1rem;
-    width: 100%;
+    width: auto;
     border: none;
     font-size: 20px;
-    display: block; /* Ensures both buttons behave consistently */
 }
 
-
 .log-in{
-    background-color: #076653;
-    /* margin-right: 1rem;
-    margin-bottom: 3.75rem; */
+    background-color: #3C8A82;
+    margin-bottom: 3.75rem;
     color: #ffffff;
     transition: all 0.2s ease-in-out;
 }
 
 .log-in:hover{
-    background-color: #088169;
+    background-color: #275853;
 }
 
 .log-in:active{
-    background-color: #0ba485;
+    background-color: #3C8A82;
     transform: scale(0.99);
 }
 
-.register {
-    border: #076653 solid 2px;
+.register{
+    border: #3C8A82 solid 2px;
     background-color: #ffffff;
-    color: #076653;
+    color: #3C8A82;
     transition: all 0.2s ease-in-out;
-    margin-bottom: 3.75rem; /* Matching login button spacing */
 }
-
 
 .register:active{
     transform: scale(0.99);
