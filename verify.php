@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['userPIN'] = $userData['PIN'];
         $_SESSION['user_password'] = $userData['user_password'];
 
-        header("Location: welcome.php"); // Redirect to another screen
+        header("Location: dashboard.php"); // Redirect to another screen
         exit();
     } else {
         echo "Invalid PIN or Password. Please try again.";

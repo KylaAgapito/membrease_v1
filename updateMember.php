@@ -1,78 +1,72 @@
 <?php
 session_start();
-include 'config.php'; // Ensure database connection
+require_once 'config.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['userPIN'])) {
-    header("Location: index.php"); // Redirect to login if not authenticated
+// Use the same session key as your dashboard
+$pin = $_SESSION['userPIN'] ?? '';
+
+// Redirect to login if not authenticated
+if (!$pin) {
+    header("Location: index.php");
     exit();
 }
 
-$PIN = $_SESSION['userPIN']; // Get the logged-in user's PIN and prevent SQL injection
-
-// Fetch person details
-$memberQuery = "SELECT * FROM memberdetails WHERE PIN = ?";
-$stmt = $conn->prepare($memberQuery);
-$stmt->bind_param("s", $PIN);
-$stmt->execute();
-$memberResult = $stmt->get_result();
-$memberData = $memberResult->fetch_assoc() ?? [];
-
-// Fetch spouse details if spouseID exists
-$spouseData = null;
-if (!empty($memberData['spouseID'])) {
-    $spouseQuery = "SELECT * FROM spousedetails WHERE spouseID = ?";
-    $stmt = $conn->prepare($spouseQuery);
-    $stmt->bind_param("s", $memberData['spouseID']);
+// Fetch current member data
+$member = [];
+if ($pin) {
+    $stmt = $conn->prepare("SELECT * FROM memberdetails WHERE PIN = ?");
+    $stmt->bind_param("s", $pin);
     $stmt->execute();
-    $spouseResult = $stmt->get_result();
-    $spouseData = $spouseResult->fetch_assoc() ?? [];
+    $result = $stmt->get_result();
+    $member = $result->fetch_assoc();
+    $stmt->close();
 }
 
-// Fetch all dependents
-$dependentQuery = "SELECT * FROM dependents WHERE PIN = ?";
-$stmt = $conn->prepare($dependentQuery);
-$stmt->bind_param("s", $PIN);
-$stmt->execute();
-$dependentResult = $stmt->get_result();
-
-// Mapping sex attribute to full description
-$sex_map = [
-    'M' => 'Male',
-    'F' => 'Female'
-];
-
-// Mapping civil status attribute to full description
-$civil_status_map = [
-    'S' => 'Single',
-    'M' => 'Married',
-    'W' => 'Widowed',
-    'A' => 'Annulled',
-    'LS' => 'Legally Separated'
-];
-
-// Convert the sex attribute
-$sex_display = $sex_map[$memberData['sex']] ?? 'Unknown';
-
-// Convert the civil status attribute
-$civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknown';
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $stmt = $conn->prepare("UPDATE memberdetails SET memberName=?, birthdate=?, birthplace=?, sex=?, civilStatus=?, citizenship=?, permaHomeAddress=?, mailingAddress=?, motherMaidenName=?, homePhoneNo=?, directNo=?, emailAdd=? WHERE PIN=?");
+    $stmt->bind_param(
+        "sssssssssssss",
+        $_POST['memberName'],
+        $_POST['birthdate'],
+        $_POST['birthplace'],
+        $_POST['sex'],
+        $_POST['civilStatus'],
+        $_POST['citizenship'],
+        $_POST['permaHomeAddress'],
+        $_POST['mailingAddress'],
+        $_POST['motherMaidenName'],
+        $_POST['homePhoneNo'],
+        $_POST['directNo'],
+        $_POST['emailAdd'],
+        $pin
+    );
+    if ($stmt->execute()) {
+        $success = "Information updated!";
+    } else {
+        $error = "Update failed.";
+    }
+    $stmt->close();
+    // Refresh member data after update
+    $stmt = $conn->prepare("SELECT * FROM memberdetails WHERE PIN = ?");
+    $stmt->bind_param("s", $pin);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $member = $result->fetch_assoc();
+    $stmt->close();
+}
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-
+    <title>Update Member Information</title>
     <link rel="stylesheet" href="css/dashboard.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
 </head>
 <body>
 
@@ -163,93 +157,70 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
 
             <section class="dashboard">
 
-                <div class="section-1">
-                    <div class="dashboard-title">
-                        <p>Member Information</p>
-                    </div>
-                <!-- <button class="register" 
-                type = "button"
-                onclick="window.location.href='register.php'">
-                No account yet? Register!
-
-                </button> -->
-                    <div class="button">
-                        <button class="update-button"
-                        type = "button"
-                        onclick = "window.location.href='updateMember.php'">
-                        Update
-                        </button>
-                    </div>
-                </div>
-
-                <div class="section-2">
-                    <div class="personal-information">
-
-                        <div class="personal-information-title">Personal Information</div>
-
-                        <div class="personal-information-list">
-                            <div class="birthdate">
-                                <div>Birthdate:</div>
-                                <div><?php echo htmlspecialchars($memberData['birthdate'] ?? "Not available"); ?></div>
+                <div class="container">
+                        <h2>Update your information</h2>
+                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
+                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+                        <form method="POST">
+                            <div class="form-group">
+                                <label>Member Name:</label>
+                                <input type="text" name="memberName" value="<?= htmlspecialchars($member['memberName'] ?? '') ?>" class="form-control" required>
                             </div>
-                            <div class="birthplace">
-                                <div>Birthplace:</div>
-                                <div><?php echo htmlspecialchars($memberData['birthplace'] ?? "Not available"); ?></div>
-
+                            <div class="form-group">
+                                <label>Birthdate:</label>
+                                <input type="date" name="birthdate" value="<?= htmlspecialchars($member['birthdate'] ?? '') ?>" class="form-control" required>
                             </div>
-                            <div class="sex">
-                                <div>Sex:</div>
-                                <div><?php echo htmlspecialchars($sex_display); ?></div>                                  
+                            <div class="form-group">
+                                <label>Birthplace:</label>
+                                <input type="text" name="birthplace" value="<?= htmlspecialchars($member['birthplace'] ?? '') ?>" class="form-control">
                             </div>
-                            <div class="civil-status">
-                                <div>Civil Status:</div>
-                                <div></strong> <?php echo htmlspecialchars($civil_status_display); ?></div>
+                            <div class="form-group">
+                                <label>Sex:</label>
+                                <label><input type="radio" name="sex" value="M" <?= (isset($member['sex']) && $member['sex'] == 'M') ? 'checked' : '' ?>> Male</label>
+                                <label><input type="radio" name="sex" value="F" <?= (isset($member['sex']) && $member['sex'] == 'F') ? 'checked' : '' ?>> Female</label>
                             </div>
-                            <div class="citizenship">
-                                <div>Citizenship:</div>
-                                <div><?php echo htmlspecialchars($memberData['citizenship'] ?? "Not available"); ?></div>
+                            <div class="form-group">
+                                <label>Civil Status:</label>
+                                <label><input type="radio" name="civilStatus" value="S" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'S') ? 'checked' : '' ?>> Single</label>
+                                <label><input type="radio" name="civilStatus" value="M" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'M') ? 'checked' : '' ?>> Married</label>
+                                <label><input type="radio" name="civilStatus" value="W" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'W') ? 'checked' : '' ?>> Widowed</label>
+                                <label><input type="radio" name="civilStatus" value="A" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'A') ? 'checked' : '' ?>> Annulled</label>
+                                <label><input type="radio" name="civilStatus" value="LS" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'LS') ? 'checked' : '' ?>> Legally Separated</label>
                             </div>
-                            <div class="address">
-                                <div>Address:</div>
-                                <div><?php echo htmlspecialchars($memberData['permaHomeAddress'] ?? "Not available"); ?></div>
+                            <div class="form-group">
+                                <label>Citizenship:</label>
+                                <input type="text" name="citizenship" value="<?= htmlspecialchars($member['citizenship'] ?? '') ?>" class="form-control">
                             </div>
-                            <div class="mailing-address">
-                                <div>Mailing Address:</div>
-                                <div> <?php echo htmlspecialchars($memberData['mailingAddress'] ?? "Not available"); ?></div>
+                            <div class="form-group">
+                                <label>Address:</label>
+                                <input type="text" name="permaHomeAddress" value="<?= htmlspecialchars($member['permaHomeAddress'] ?? '') ?>" class="form-control">
                             </div>
-                            <div class="mother-name">
-                                <div>Mother's name:</div>
-                                <div><?php echo htmlspecialchars($memberData['motherMaidenName'] ?? "Not available"); ?></div>
+                            <div class="form-group">
+                                <label>Mailing Address:</label>
+                                <input type="text" name="mailingAddress" value="<?= htmlspecialchars($member['mailingAddress'] ?? '') ?>" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label>Mother's Name:</label>
+                                <input type="text" name="motherMaidenName" value="<?= htmlspecialchars($member['motherMaidenName'] ?? '') ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Home Phone Number:</label>
+                                <input type="tel" name="homePhoneNo" value="<?= htmlspecialchars($member['homePhoneNo'] ?? '') ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Direct Number:</label>
+                                <input type="tel" name="directNo" value="<?= htmlspecialchars($member['directNo'] ?? '') ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address:</label>
+                                <input type="email" name="emailAdd" value="<?= htmlspecialchars($member['emailAdd'] ?? '') ?>" class="form-control">
+                            </div>
+                            <button class="save-button" type="submit">Update</button>
+                        </form>
+                        <div style="margin-top:1em;">
+                            <a href="dashboard.php">Back to Dashboard</a>
                         </div>
                     </div>
-                    <div class="contact-information">
-
-                        <div class="contact-information-title">Contact Information</div>
-
-                        <div class="contact-information-list">
-
-                            <div class="contact-number">
-                                <div>Home Phone Number:</div>
-                                <div><?php echo htmlspecialchars($memberData['homePhoneNo'] ?? "Not available"); ?></div>
-
-                            </div>
-
-                            <div class="direct-number">
-                                <div>Direct Number:</div>
-                                <div><?php echo htmlspecialchars($memberData['directNo'] ?? "Not available"); ?></div>
-                            </div>
-
-                            <div class="email-address">
-                                <div>Email Address:</div>
-                                <div><?php echo htmlspecialchars($memberData['emailAdd'] ?? "Not available"); ?></div>
-                            </div>
-
-                        </div>
-                        
-
-                    </div>
-                </div>
 
 
                 <?php if ($spouseData): ?>
