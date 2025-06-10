@@ -22,11 +22,12 @@ if ($pin) {
     $stmt->close();
 }
 
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $stmt = $conn->prepare("UPDATE memberdetails SET memberName=?, birthdate=?, birthplace=?, sex=?, civilStatus=?, citizenship=?, permaHomeAddress=?, mailingAddress=?, motherMaidenName=?, homePhoneNo=?, directNo=?, emailAdd=? WHERE PIN=?");
+    $stmt = $conn->prepare("UPDATE memberdetails SET memberName=?, birthdate=?, birthplace=?, sex=?, civilStatus=?, citizenship=?, permaHomeAddress=?, mailingAddress=?, motherMaidenName=?, homePhoneNo=?, mobileNo = ?, directNo=?, emailAdd=? WHERE PIN=?");
     $stmt->bind_param(
-        "sssssssssssss",
+        "ssssssssssssss",
         $_POST['memberName'],
         $_POST['birthdate'],
         $_POST['birthplace'],
@@ -37,10 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['mailingAddress'],
         $_POST['motherMaidenName'],
         $_POST['homePhoneNo'],
+        $_POST['mobileNo'],
         $_POST['directNo'],
         $_POST['emailAdd'],
         $pin
     );
+    if (!empty($member['spouseID'])) {
+        $spouseName = $_POST['spouseName'] ?? '';
+        $stmt = $conn->prepare("UPDATE spousedetails SET spouseName=? WHERE spouseID=?");
+        $stmt->bind_param("ss", $spouseName, $member['spouseID']);
+    }
     if ($stmt->execute()) {
         $success = "Information updated!";
     } else {
@@ -55,6 +62,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $member = $result->fetch_assoc();
     $stmt->close();
 }
+
+$spouseData = null;
+if (!empty($member['spouseID'])) {
+    $spouseQuery = "SELECT * FROM spousedetails WHERE spouseID = ?";
+    $stmt = $conn->prepare($spouseQuery);
+    $stmt->bind_param("s", $member['spouseID']);
+    $stmt->execute();
+    $spouseResult = $stmt->get_result();
+    $spouseData = $spouseResult->fetch_assoc() ?? [];
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -104,10 +122,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="member-name-id-wrapper">
                     <div class="member-name">
-                        <div><?php echo htmlspecialchars($memberData['memberName'] ?? "Not available"); ?></div>
+                        <div><?php echo htmlspecialchars($member['memberName'] ?? "Not available"); ?></div>
                     </div>
                     <div class="member-id">
-                        <div><?php echo htmlspecialchars($memberData['PIN'] ?? "Not available"); ?></div>
+                        <div><?php echo htmlspecialchars($member['PIN'] ?? "Not available"); ?></div>
                     </div>
                 </div>
                 
@@ -156,92 +174,154 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
             <section class="dashboard">
+                <div class="section-4" style="overflow: auto;">
+                    <div class="update-information">
+                        <div class="update-information-title">Update your information below:</div>
+                            <div class="update-information-list">
+                                <form method="POST">
 
-                <div class="container">
-                        <h2>Update your information</h2>
-                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
-                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
-                        <form method="POST">
-                            <div class="form-group">
-                                <label>Member Name:</label>
-                                <input type="text" name="memberName" value="<?= htmlspecialchars($member['memberName'] ?? '') ?>" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Birthdate:</label>
-                                <input type="date" name="birthdate" value="<?= htmlspecialchars($member['birthdate'] ?? '') ?>" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Birthplace:</label>
-                                <input type="text" name="birthplace" value="<?= htmlspecialchars($member['birthplace'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Sex:</label>
-                                <label><input type="radio" name="sex" value="M" <?= (isset($member['sex']) && $member['sex'] == 'M') ? 'checked' : '' ?>> Male</label>
-                                <label><input type="radio" name="sex" value="F" <?= (isset($member['sex']) && $member['sex'] == 'F') ? 'checked' : '' ?>> Female</label>
-                            </div>
-                            <div class="form-group">
-                                <label>Civil Status:</label>
-                                <label><input type="radio" name="civilStatus" value="S" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'S') ? 'checked' : '' ?>> Single</label>
-                                <label><input type="radio" name="civilStatus" value="M" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'M') ? 'checked' : '' ?>> Married</label>
-                                <label><input type="radio" name="civilStatus" value="W" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'W') ? 'checked' : '' ?>> Widowed</label>
-                                <label><input type="radio" name="civilStatus" value="A" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'A') ? 'checked' : '' ?>> Annulled</label>
-                                <label><input type="radio" name="civilStatus" value="LS" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'LS') ? 'checked' : '' ?>> Legally Separated</label>
-                            </div>
-                            <div class="form-group">
-                                <label>Citizenship:</label>
-                                <input type="text" name="citizenship" value="<?= htmlspecialchars($member['citizenship'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Address:</label>
-                                <input type="text" name="permaHomeAddress" value="<?= htmlspecialchars($member['permaHomeAddress'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Mailing Address:</label>
-                                <input type="text" name="mailingAddress" value="<?= htmlspecialchars($member['mailingAddress'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Mother's Name:</label>
-                                <input type="text" name="motherMaidenName" value="<?= htmlspecialchars($member['motherMaidenName'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Home Phone Number:</label>
-                                <input type="tel" name="homePhoneNo" value="<?= htmlspecialchars($member['homePhoneNo'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Direct Number:</label>
-                                <input type="tel" name="directNo" value="<?= htmlspecialchars($member['directNo'] ?? '') ?>" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Email Address:</label>
-                                <input type="email" name="emailAdd" value="<?= htmlspecialchars($member['emailAdd'] ?? '') ?>" class="form-control">
-                            </div>
-                            <button class="save-button" type="submit">Update</button>
-                        </form>
-                        <div style="margin-top:1em;">
-                            <a href="dashboard.php">Back to Dashboard</a>
-                        </div>
-                    </div>
-
-
-                <?php if ($spouseData): ?>
-                <div class="section-3">
-                    <div class="spouse-information">
-
-                        <div class="spouse-information-title">Spouse Information</div>
-
-                        <div class="spouse-information-list">
-
-                            <div class="spouse-name">
-                                <div>Spouse Name: </div>
-                                <div><?php echo htmlspecialchars($spouseData['spouseName'] ?? "Not available"); ?></div>
                                 
-                            </div>
+                                    <div class="update-member-information">
+                                    
+                                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
+                                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+                                        
+                                        <p>Member Information</p>
 
+                                        <!-- <form method="POST"> -->
+
+                                        <!-- div for memberName -->
+                                        <div class="update-name">
+                                            <div class="form-group">
+                                                <label>Member Name:</label>
+                                                <input type="text" name="memberName" value="<?= htmlspecialchars($member['memberName'] ?? '') ?>" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- div for birthdate -->
+                                        <div class="update-birthdate">
+                                            <div class="form-group">
+                                                <label>Birthdate:</label>
+                                                <input type="date" name="birthdate" value="<?= htmlspecialchars($member['birthdate'] ?? '') ?>" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="birthplace">
+                                            <div class="form-group">
+                                                <label>Birthplace:</label>
+                                                <input type="text" name="birthplace" value="<?= htmlspecialchars($member['birthplace'] ?? '') ?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sex">
+                                            <div class="form-group">
+                                                <label>Sex:</label>
+                                                <div class="sex-input">
+                                                    <div class="options">
+                                                        <label><input type="radio" name="sex" value="M" <?= (isset($member['sex']) && $member['sex'] == 'M') ? 'checked' : '' ?>> Male</label>
+                                                        <label><input type="radio" name="sex" value="F" <?= (isset($member['sex']) && $member['sex'] == 'F') ? 'checked' : '' ?>> Female</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="civil-status">
+                                            <div class="form-group">
+                                                <label>Civil Status:</label>
+                                                <div class="civil-status-input">
+                                                    <div class="options">
+                                                        <label><input type="radio" name="civilStatus" value="S" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'S') ? 'checked' : '' ?>> Single</label>
+                                                        <label><input type="radio" name="civilStatus" value="M" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'M') ? 'checked' : '' ?>> Married</label>
+                                                        <label><input type="radio" name="civilStatus" value="W" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'W') ? 'checked' : '' ?>> Widowed</label>
+                                                        <label><input type="radio" name="civilStatus" value="A" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'A') ? 'checked' : '' ?>> Annulled</label>
+                                                        <label><input type="radio" name="civilStatus" value="LS" <?= (isset($member['civilStatus']) && $member['civilStatus'] == 'LS') ? 'checked' : '' ?>> Legally Separated</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>       
+
+                                        <div class="citizenship">
+                                            <div class="form-group">
+                                                <label>Citizenship:</label>
+                                                <input type="text" name="citizenship" value="<?= htmlspecialchars($member['citizenship'] ?? '') ?>" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="address">
+                                            <div class="form-group">
+                                                <label>Address:</label>
+                                                <input type="text" name="permaHomeAddress" value="<?= htmlspecialchars($member['permaHomeAddress'] ?? '') ?>" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="mailing-address">
+                                            <label>Mailing Address:</label>
+                                            <input type="text" name="mailingAddress" value="<?= htmlspecialchars($member['mailingAddress'] ?? '') ?>" class="form-control">
+                                        </div>
+
+                                        <div class="mother-name">
+                                            <label>Mother's Name:</label>
+                                            <input type="text" name="motherMaidenName" value="<?= htmlspecialchars($member['motherMaidenName'] ?? '') ?>" class="form-control">
+                                        </div> 
+
+                                    </div>
+
+                                    <div class="update-contact-information">
+                                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
+                                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?> 
+
+                                        <p>Contact Information</p>
+
+                                        <div class="contact-number">
+                                            <label>Home Phone Number:</label>
+                                            <input type="tel" name="homePhoneNo" value="<?= htmlspecialchars($member['homePhoneNo'] ?? '') ?>" class="form-control">
+                                        </div>
+
+                                        <div class="mobile-number">
+                                        <label>Mobile Number:</label>
+                                            <input type="tel" name="mobileNo" value="<?= htmlspecialchars($member['mobileNo'] ?? '') ?>" class="form-control">
+                                        </div>
+
+                                        <div class="direct-number">
+                                            <label>Direct Number:</label>
+                                            <input type="tel" name="directNo" value="<?= htmlspecialchars($member['directNo'] ?? '') ?>" class="form-control">
+                                        </div>
+
+                                        <div class="email-address">
+                                        <label>Email Address:</label>
+                                        <input type="email" name="emailAdd" value="<?= htmlspecialchars($member['emailAdd'] ?? '') ?>" class="form-control">
+                                        </div>
+
+                                    </div>
+                                    
+                                    <?php if ($spouseData): ?>
+                                    <div class="update-spouse-information">
+                                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
+                                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?> 
+
+                                        <p>Spouse Information</p>
+                                        <div class="spouse-name">
+                                            <div>Spouse Name:</div>
+                                            <input type="text" name="spouseName" value="<?= htmlspecialchars($spouseData['spouseName'] ?? '') ?>" class="form-control">
+                                        </div>
+
+                                    </div>
+                                    <?php endif; ?>
+
+                                    <button class="save-button" type="submit">Update</button>
+                                </form>
+                            </div>
                         </div>
-                        
-                    </div>
+                    </div> 
+
+                    <div style="display:flex; justify-content: space-between;">
+                        <button class="cancel-button" onclick="window.location.href='dashboard.php'">Cancel</button>
+                        <!-- <button class="save-button">Update</button> -->
+                    </div>    
+
+                              
                 </div>
-                <?php endif; ?>
+
 
             </section>
 

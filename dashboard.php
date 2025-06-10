@@ -167,12 +167,7 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                     <div class="dashboard-title">
                         <p>Member Information</p>
                     </div>
-                <!-- <button class="register" 
-                type = "button"
-                onclick="window.location.href='register.php'">
-                No account yet? Register!
-
-                </button> -->
+                    
                     <div class="button">
                         <button class="update-button"
                         type = "button"
