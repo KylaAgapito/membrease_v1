@@ -43,13 +43,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['emailAdd'],
         $pin
     );
+    $member_updated = $stmt->execute();
+    $stmt->close();
+
+    // Update spouse if needed
+    $spouse_updated = true;
     if (!empty($member['spouseID'])) {
         $spouseName = $_POST['spouseName'] ?? '';
         $stmt = $conn->prepare("UPDATE spousedetails SET spouseName=? WHERE spouseID=?");
         $stmt->bind_param("ss", $spouseName, $member['spouseID']);
+        $spouse_updated = $stmt->execute();
+        $stmt->close();
     }
-    if ($stmt->execute()) {
-        $success = "Information updated!";
+
+    if ($member_updated && $spouse_updated) {
+        header("Location: dashboard.php?updated=1");
+        exit();
     } else {
         $error = "Update failed.";
     }
@@ -71,6 +80,16 @@ if (!empty($member['spouseID'])) {
     $stmt->execute();
     $spouseResult = $stmt->get_result();
     $spouseData = $spouseResult->fetch_assoc() ?? [];
+}
+
+$mailingAddressData = null;
+if (!empty($member['mailingAddress'])) {
+    $mailingAddressQuery = "SELECT * FROM memberdetails WHERE PIN = ?";
+    $stmt = $conn->prepare($mailingAddressQuery);
+    $stmt->bind_param("s", $member['mailingAddress']);
+    $stmt->execute();
+    $mailingAddressResult = $stmt->get_result();
+    $mailingAddressData = $mailingAddressResult->fetch_assoc() ?? [];
 }
 
 ?>
@@ -177,22 +196,19 @@ if (!empty($member['spouseID'])) {
                 <div class="section-4" style="overflow: auto;">
                     <div class="update-information">
                         <div class="update-information-title">Update your information below:</div>
-                            <div class="update-information-list">
-                                <form method="POST">
+                            <div class="update-information-list" style="padding: 22px 32px;"> <!-- sorry hinardcode ko na yung padding -->
+                                <form method="POST" class ="form-group">
 
-                                
                                     <div class="update-member-information">
-                                    
+
                                         <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
                                         <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
                                         
                                         <p>Member Information</p>
-
-                                        <!-- <form method="POST"> -->
-
+    
                                         <!-- div for memberName -->
                                         <div class="update-name">
-                                            <div class="form-group">
+                                            <div class="form-group">    
                                                 <label>Member Name:</label>
                                                 <input type="text" name="memberName" value="<?= htmlspecialchars($member['memberName'] ?? '') ?>" class="form-control" required>
                                             </div>
@@ -247,6 +263,7 @@ if (!empty($member['spouseID'])) {
                                             </div>
                                         </div>
 
+                                        
                                         <div class="address">
                                             <div class="form-group">
                                                 <label>Address:</label>
@@ -254,67 +271,81 @@ if (!empty($member['spouseID'])) {
                                             </div>
                                         </div>
 
+                                        
                                         <div class="mailing-address">
+                                            <div class="form-group">
                                             <label>Mailing Address:</label>
-                                            <input type="text" name="mailingAddress" value="<?= htmlspecialchars($member['mailingAddress'] ?? '') ?>" class="form-control">
+                                            <input type="text" name="mailingAddress" value="<?= htmlspecialchars($member['mailingAddress'] ?? 'Not Available') ?>" class="form-control">
+                                            </div>
                                         </div>
+                                        
 
                                         <div class="mother-name">
-                                            <label>Mother's Name:</label>
-                                            <input type="text" name="motherMaidenName" value="<?= htmlspecialchars($member['motherMaidenName'] ?? '') ?>" class="form-control">
-                                        </div> 
+                                            <div class="form-group">
+                                                <label>Mother's Name:</label>
+                                                <input type="text" name="motherMaidenName" value="<?= htmlspecialchars($member['motherMaidenName'] ?? '') ?>" class="form-control">
+                                            </div>
+                                        </div>
 
                                     </div>
 
                                     <div class="update-contact-information">
-                                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
-                                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?> 
 
                                         <p>Contact Information</p>
 
                                         <div class="contact-number">
-                                            <label>Home Phone Number:</label>
-                                            <input type="tel" name="homePhoneNo" value="<?= htmlspecialchars($member['homePhoneNo'] ?? '') ?>" class="form-control">
+                                            <div class="form-group">
+                                                <label>Home Phone Number:</label>
+                                                <input type="tel" name="homePhoneNo" value="<?= htmlspecialchars($member['homePhoneNo'] ?? '') ?>" class="form-control">
+                                            </div>
                                         </div>
 
                                         <div class="mobile-number">
-                                        <label>Mobile Number:</label>
-                                            <input type="tel" name="mobileNo" value="<?= htmlspecialchars($member['mobileNo'] ?? '') ?>" class="form-control">
+                                            <div class="form-group">
+                                                <label>Mobile Number:</label>
+                                                <input type="tel" name="mobileNo" value="<?= htmlspecialchars($member['mobileNo'] ?? '') ?>" class="form-control">
+                                            </div>
                                         </div>
 
                                         <div class="direct-number">
-                                            <label>Direct Number:</label>
-                                            <input type="tel" name="directNo" value="<?= htmlspecialchars($member['directNo'] ?? '') ?>" class="form-control">
+                                            <div class="form-group">
+                                                <label>Direct Number:</label>
+                                                <input type="tel" name="directNo" value="<?= htmlspecialchars($member['directNo'] ?? '') ?>" class="form-control">
+                                            </div>
                                         </div>
 
                                         <div class="email-address">
-                                        <label>Email Address:</label>
-                                        <input type="email" name="emailAdd" value="<?= htmlspecialchars($member['emailAdd'] ?? '') ?>" class="form-control">
+                                            <div class="form-group">
+                                                <label>Email Address:</label>
+                                                <input type="email" name="emailAdd" value="<?= htmlspecialchars($member['emailAdd'] ?? '') ?>" class="form-control">
+                                            </div>
                                         </div>
 
                                     </div>
                                     
                                     <?php if ($spouseData): ?>
                                     <div class="update-spouse-information">
-                                        <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
-                                        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?> 
 
                                         <p>Spouse Information</p>
                                         <div class="spouse-name">
-                                            <div>Spouse Name:</div>
-                                            <input type="text" name="spouseName" value="<?= htmlspecialchars($spouseData['spouseName'] ?? '') ?>" class="form-control">
+                                            <div class="form-group">
+                                                <label>Spouse Name:</label>
+                                                <input type="text" name="spouseName" value="<?= htmlspecialchars($spouseData['spouseName'] ?? '') ?>" class="form-control">
+                                            </div>
                                         </div>
 
-                                    </div>
+                                    </div>  
                                     <?php endif; ?>
-
+                                    
+                                    
                                     <button class="save-button" type="submit">Update</button>
+                                    
                                 </form>
                             </div>
                         </div>
                     </div> 
 
-                    <div style="display:flex; justify-content: space-between;">
+                    <div style="display:flex; justify-content: space-between;" >
                         <button class="cancel-button" onclick="window.location.href='dashboard.php'">Cancel</button>
                         <!-- <button class="save-button">Update</button> -->
                     </div>    
@@ -347,6 +378,16 @@ if (!empty($member['spouseID'])) {
 
     <!-- <script src="js/member-script.js"> </script> -->
     <!-- <script src="js/contributor-script.js"></script> -->
-    
+    <!-- Add this script at the end of your HTML body -->
+    <!-- <script>
+    document.querySelectorAll('.update-member-information input[type="text"], .update-member-information input[type="email"], .update-member-information input[type="tel"], .update-member-information input[type="date"]').forEach(function(input) {
+        function resize() {
+            input.style.width = "1px";
+            input.style.width = (input.scrollWidth + 10) + "px";
+        }
+        input.addEventListener('input', resize);
+        resize(); // Initial call
+    });
+    </script> -->
 </body>
 </html>

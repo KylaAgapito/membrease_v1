@@ -1,3 +1,10 @@
+html, body, .parent, .main, .dashboard {
+    height: 100vh;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 body{
     padding: 0;
     margin: 0;
@@ -262,6 +269,8 @@ button:hover{
 }
 
 
+/* eto yung original
+
 .section-4{
     display: flex;
     flex-direction: column;
@@ -280,20 +289,20 @@ button:hover{
 
 }
 
-.update-information-list{
+.update-information-list .form-group{
     display: flex;
     padding: 0px 32px;
     flex-direction: column;
 }
 
-.update-information-list > div > div{
+.update-information-list > div > div .form-group{
     display: flex;
     align-items: center;
     margin: 8px 0px;
     gap: 8px;
 }
 
-.update-information-list > div > div > input{
+.update-information-list > div > div > input .form-group{
     padding: 4px 4px;
     font-size: 16px;
     border: 1px solid #3C8A82;
@@ -301,16 +310,234 @@ button:hover{
     transition: all 0.2s ease-in-out;
 }
 
-.update-information-list > div > p{
+.update-information-list > div > p .form-group{
     font-weight: bold;
 }
 
-.update-information-list > div > div > input:focus{
+.update-information-list > div > div > input:focus .form-group{
     outline: 1px solid #275853;
 }
 
-.update-member-information, .update-contact-information, .update-spouse-information{
+.update-member-information, 
+.update-contact-information, 
+.update-spouse-information .form-group{
     padding-bottom: 16px;
     margin-bottom: 16px;
     border-bottom: solid 1px #27585390;
+}
+
+.update-member-information > div, 
+.update-contact-information > div, 
+.update-spouse-information > div{
+    display: flex;
+    flex-direction: column;
+}
+.update-member-information > div > div, 
+.update-contact-information > div > div, 
+.update-spouse-information > div > div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+.update-member-information > div > div > label, 
+.update-contact-information > div > div > label, 
+.update-spouse-information > div > div > label{
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.update-member-information > div > div > input, 
+.update-contact-information > div > div > input, 
+.update-spouse-information > div > div > input{
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #3C8A82;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+    width: auto;
+    min-width: 120px;   
+    max-width: 100%;   
+    box-sizing: border-box;
+}
+.update-member-information > div > div > input:focus, 
+.update-contact-information > div > div > input:focus, 
+.update-spouse-information > div > div > input:focus{
+    outline: 1px solid #275853;
+} */
+ 
+/* Match PHP classes and structure from your highlighted section */
+
+.section-4 {
+    /* flex: 1 1 0; */
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+    /* overflow-y: scroll;       
+    scrollbar-width: auto;
+    scrollbar-color: #3C8A82 #e6f4ec; */
+}
+
+.update-information {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #275853;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.115);
+}
+
+/* .update-information-title {
+    font-family: Montserrat, Sans-Serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #275853;
+    margin: 24px 0 8px 32px;
+} */
+
+.update-information-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 32px;
+    max-height: 65vh;         /* Adjust as needed for your layout */
+    overflow-y: auto;         /* Enables vertical scrolling */
+    scrollbar-width: thin;
+    scrollbar-color: #3C8A82 #e6f4ec;
+}
+
+.update-information-list::-webkit-scrollbar {
+    width: 8px;
+}
+.update-information-list::-webkit-scrollbar-thumb {
+    background: #3C8A82;
+    border-radius: 8px;
+}
+.update-information-list::-webkit-scrollbar-track {
+    background: #e6f4ec;
+    border-radius: 8px;
+}
+
+.update-information-list > form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.update-information-list form.form-group {
+    width: 100%;
+}
+
+.update-information-list > div > p {
+    font-weight: bold;
+    margin: 16px 0 8px 0;
+    color: #3C8A82;
+    font-family: Montserrat, Sans-Serif;
+}
+
+.update-information-list > div > div {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    gap: 8px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;      /* Make label and input side by side */
+    align-items: center;      /* Vertically center label and input */
+    gap: 16px;                /* Space between label and input */
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #275853;
+    font-family: Montserrat, Sans-Serif;
+    min-width: 140px;         /* Ensures labels align vertically */
+    margin-bottom: 0;         /* Remove bottom margin for horizontal layout */
+    text-align: right;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="tel"],
+.form-group input[type="email"] {
+    flex: 1;                  /* Input takes remaining space */
+    padding: 4px 8px;
+    font-size: 16px;
+    border: 1px solid #3C8A82;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+    background: #f8f8f8;
+    color: #275853;
+    font-family: Montserrat, Sans-Serif;
+    min-width: 120px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="email"]:focus {
+    outline: 1px solid #275853;
+    background: #fff;
+}
+
+.options {
+    display: flex;
+    gap: 16px;
+    font-family: Montserrat, Sans-Serif;
+    font-size: 15px;
+    color: #275853;
+}
+
+.update-member-information,
+.update-contact-information,
+.update-spouse-information {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: solid 1px #27585390;
+}
+
+.update-member-information {
+    height: 400px;      /* Adjust as needed */
+}
+
+.update-contact-information {
+    height: 200px;      /* Adjust as needed */
+    width: 77%;
+}
+
+.update-spouse-information {
+    height: 100px;      /* Adjust as needed */
+    width: 77%;
+}
+
+.save-button, .cancel-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    color: #fff;
+    background: #4db6ac;
+    font-family: Montserrat, Sans-Serif;
+    font-weight: bold;
+    transition: 0.2s background;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: #b2dfdb;
+    color: #275853;
+}
+
+.save-button:hover {
+    background: #80cbc4;
+}
+
+.cancel-button:hover {
+    background: #3C8A82;
+    color: #fff;
 }

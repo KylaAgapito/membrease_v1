@@ -167,7 +167,7 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                     <div class="dashboard-title">
                         <p>Member Information</p>
                     </div>
-                    
+
                     <div class="button">
                         <button class="update-button"
                         type = "button"
@@ -291,6 +291,13 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
 
     <!-- <script src="js/member-script.js"> </script> -->
     <!-- <script src="js/contributor-script.js"></script> -->
-    
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('updated') === '1') {
+            alert('Your details have been updated!');
+        }
+    });
+    </script>
 </body>
 </html>
