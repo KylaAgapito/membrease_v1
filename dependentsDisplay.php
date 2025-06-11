@@ -1,3 +1,5 @@
+<!-- this is for displaying the dependents of a member -->
+
 <?php
 session_start();
 include 'config.php'; // Ensure database connection
@@ -99,10 +101,9 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                     </div>
                 </div>
             </a>
+        
 
             <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search">
             </div>
 
             <div class="account">
@@ -132,7 +133,7 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                 </div>
 
                 <div class="sidebar-tools">
-                        <div class="member-information content-panel active" data-section="member-information" onclick="window.location.href='dashboard.php'">  
+                        <div class="member-information content-panel" data-section="member-information" onclick="window.location.href='dashboard.php'">  
                         <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M16 19H14V17C13.9992 16.2046 13.6829 15.442 13.1204 14.8796C12.558 14.3171 11.7954 14.0008 11 14H7C6.20459 14.0008 5.44199 14.3171 4.87956 14.8796C4.31712 15.442 4.00079 16.2046 4 17V19H2V17C2.00159 15.6744 2.52888 14.4036 3.46622 13.4662C4.40356 12.5289 5.67441 12.0016 7 12H11C12.3256 12.0016 13.5964 12.5289 14.5338 13.4662C15.4711 14.4036 15.9984 15.6744 16 17V19ZM9 2C9.59334 2 10.1734 2.17595 10.6667 2.50559C11.1601 2.83524 11.5446 3.30377 11.7716 3.85195C11.9987 4.40013 12.0581 5.00333 11.9424 5.58527C11.8266 6.16721 11.5409 6.70176 11.1213 7.12132C10.7018 7.54088 10.1672 7.8266 9.58527 7.94236C9.00333 8.05811 8.40013 7.9987 7.85195 7.77164C7.30377 7.54458 6.83524 7.16006 6.50559 6.66671C6.17595 6.17336 6 5.59334 6 5C6 4.20435 6.31607 3.44129 6.87868 2.87868C7.44129 2.31607 8.20435 2 9 2ZM9 0C8.01109 0 7.04439 0.293245 6.22215 0.842652C5.3999 1.39206 4.75904 2.17295 4.3806 3.08658C4.00216 4.00021 3.90315 5.00555 4.09607 5.97545C4.289 6.94536 4.7652 7.83627 5.46447 8.53553C6.16373 9.2348 7.05464 9.711 8.02455 9.90393C8.99445 10.0969 9.99979 9.99784 10.9134 9.6194C11.827 9.24096 12.6079 8.6001 13.1573 7.77785C13.7068 6.95561 14 5.98891 14 5C14 3.67392 13.4732 2.40215 12.5355 1.46447C11.5979 0.526784 10.3261 0 9 0ZM0 22H28V24H0V22ZM28 4H26V2H24V0H28V4ZM17 0H21V2H19V4H17V0ZM26 9H28V11H26V9ZM24 7H26V9H24V7ZM17 7H19V9H21V11H17V7Z" fill="#275853"/>
                             </svg>                            
@@ -144,15 +145,16 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                             </svg>                                               
                             Contributor Information
                     </div>
-                        <div class="dependents-information content-panel" data-section="dependents-information" onclick="window.location.href='dependentsDisplay.php'">
+                        <div class="dependents-information content-panel active" data-section="dependents-information" onclick="window.location.href='dependentsDisplay.php'">
                         <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M23 22H21.3571V18.0714C21.3558 17.0299 20.9227 16.0314 20.1528 15.2949C19.3828 14.5584 18.3389 14.1441 17.25 14.1429V12.5714C18.7743 12.5735 20.2356 13.1536 21.3135 14.1846C22.3913 15.2156 22.9978 16.6134 23 18.0714V22ZM16.4286 22H14.7857V18.0714C14.7844 17.0299 14.3513 16.0314 13.5813 15.2949C12.8114 14.5584 11.7675 14.1441 10.6786 14.1429H5.75C4.66112 14.1441 3.61721 14.5584 2.84725 15.2949C2.0773 16.0314 1.64416 17.0299 1.64286 18.0714V22H0V18.0714C0.00217296 16.6134 0.608673 15.2156 1.68654 14.1846C2.7644 13.1536 4.22567 12.5735 5.75 12.5714H10.6786C12.2029 12.5735 13.6642 13.1536 14.742 14.1846C15.8199 15.2156 16.4264 16.6134 16.4286 18.0714V22ZM14.7857 0V1.57143C15.875 1.57143 16.9197 1.98533 17.6899 2.72208C18.4601 3.45883 18.8929 4.45808 18.8929 5.5C18.8929 6.54192 18.4601 7.54117 17.6899 8.27792C16.9197 9.01467 15.875 9.42857 14.7857 9.42857V11C16.3107 11 17.7732 10.4205 18.8516 9.38909C19.9299 8.35764 20.5357 6.95869 20.5357 5.5C20.5357 4.04131 19.9299 2.64236 18.8516 1.61091C17.7732 0.579463 16.3107 0 14.7857 0ZM8.21429 1.57143C9.0266 1.57143 9.82068 1.80184 10.4961 2.23351C11.1715 2.66519 11.6979 3.27875 12.0088 3.9966C12.3197 4.71445 12.401 5.50436 12.2425 6.26643C12.084 7.02849 11.6929 7.7285 11.1185 8.27792C10.5441 8.82734 9.81226 9.2015 9.01555 9.35309C8.21884 9.50467 7.39303 9.42687 6.64255 9.12953C5.89207 8.83218 5.25062 8.32865 4.79932 7.6826C4.34802 7.03655 4.10714 6.277 4.10714 5.5C4.10714 4.45808 4.53986 3.45883 5.3101 2.72208C6.08034 1.98533 7.125 1.57143 8.21429 1.57143ZM8.21429 0C7.07704 0 5.96534 0.322569 5.01976 0.926917C4.07417 1.53126 3.33718 2.39025 2.90198 3.39524C2.46677 4.40023 2.35291 5.5061 2.57477 6.573C2.79664 7.63989 3.34427 8.6199 4.14842 9.38909C4.95257 10.1583 5.97713 10.6821 7.09252 10.8943C8.20791 11.1065 9.36404 10.9976 10.4147 10.5813C11.4654 10.1651 12.3634 9.46011 12.9952 8.55564C13.6271 7.65117 13.9643 6.5878 13.9643 5.5C13.9643 4.04131 13.3585 2.64236 12.2801 1.61091C11.2018 0.579463 9.73928 0 8.21429 0Z" fill="#275853"/>
                             </svg>
                             Dependents Information
                     </div>
 
-                    
-                 </div>
+
+             </div>
+
                  <div class="about-out">
                     <div class="about-us" onclick="window.location.href='about-us.php'">
                         <div>About us</div>
@@ -164,6 +166,7 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                 </div>
 
 
+
             </section>
 
 
@@ -171,107 +174,44 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
 
                 <div class="section-1">
                     <div class="dashboard-title">
-                        <p>Member Information</p>
+                        <p>Dependent Information</p>
                     </div>
 
-                    <div class="button">
-                        <button class="update-button"
-                        type = "button"
-                        onclick = "window.location.href='updateMember.php'">
-                        Update
-                        </button>
-                    </div>
+                    <a class="" href="../html/dependent-update.html">
+                        <div class="button" onclick="">
+                            <button class="update-button">Update</button>
+                        </div>
+                    </a>
+                    
                 </div>
 
-                <div class="section-2">
-                    <div class="personal-information">
-
-                        <div class="personal-information-title">Personal Information</div>
-
-                        <div class="personal-information-list">
-                            <div class="birthdate">
-                                <div>Birthdate:</div>
-                                <div><?php echo htmlspecialchars($memberData['birthdate'] ?? "Not available"); ?></div>
-                            </div>
-                            <div class="birthplace">
-                                <div>Birthplace:</div>
-                                <div><?php echo htmlspecialchars($memberData['birthplace'] ?? "Not available"); ?></div>
-
-                            </div>
-                            <div class="sex">
-                                <div>Sex:</div>
-                                <div><?php echo htmlspecialchars($sex_display); ?></div>                                  
-                            </div>
-                            <div class="civil-status">
-                                <div>Civil Status:</div>
-                                <div></strong> <?php echo htmlspecialchars($civil_status_display); ?></div>
-                            </div>
-                            <div class="citizenship">
-                                <div>Citizenship:</div>
-                                <div><?php echo htmlspecialchars($memberData['citizenship'] ?? "Not available"); ?></div>
-                            </div>
-                            <div class="address">
-                                <div>Address:</div>
-                                <div><?php echo htmlspecialchars($memberData['permaHomeAddress'] ?? "Not available"); ?></div>
-                            </div>
-                            <div class="mailing-address">
-                                <div>Mailing Address:</div>
-                                <div> <?php echo htmlspecialchars($memberData['mailingAddress'] ?? "Not available"); ?></div>
-                            </div>
-                            <div class="mother-name">
-                                <div>Mother's name:</div>
-                                <div><?php echo htmlspecialchars($memberData['motherMaidenName'] ?? "Not available"); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact-information">
-
-                        <div class="contact-information-title">Contact Information</div>
-
-                        <div class="contact-information-list">
-
-                            <div class="contact-number">
-                                <div>Home Phone Number:</div>
-                                <div><?php echo htmlspecialchars($memberData['homePhoneNo'] ?? "Not available"); ?></div>
-
-                            </div>
-
-                            <div class="direct-number">
-                                <div>Direct Number:</div>
-                                <div><?php echo htmlspecialchars($memberData['directNo'] ?? "Not available"); ?></div>
-                            </div>
-
-                            <div class="email-address">
-                                <div>Email Address:</div>
-                                <div><?php echo htmlspecialchars($memberData['emailAdd'] ?? "Not available"); ?></div>
-                            </div>
-
-                        </div>
-                        
-
-                    </div>
-                </div>
-
-
-                <?php if ($spouseData): ?>
                 <div class="section-3">
                     <div class="spouse-information">
 
-                        <div class="spouse-information-title">Spouse Information</div>
+                        <div class="spouse-information-title">Dependent Information</div>
 
                         <div class="spouse-information-list">
 
-                            <div class="spouse-name">
-                                <div>Spouse Name: </div>
-                                <div><?php echo htmlspecialchars($spouseData['spouseName'] ?? "Not available"); ?></div>
-                                
+                            <div class="dependent-name">
+                                <!-- <div>Dependent name:</div> -->
+                            <?php if ($dependentResult->num_rows > 0): ?>
+                                <ul>
+                                    <?php while ($row = $dependentResult->fetch_assoc()): ?>
+                                        <li><strong>Name:</strong> <?php echo htmlspecialchars($row['depName']); ?> (Relationship: <?php echo htmlspecialchars($row['relationship']); ?>)</li>
+                                    <?php endwhile; ?>
+                                </ul>
+                            <?php else: ?>
+                                <p>No dependents registered.</p>
+                            <?php endif; ?>
                             </div>
+
+                       
 
                         </div>
                         
                     </div>
                 </div>
-                <?php endif; ?>
+                
 
             </section>
 
@@ -286,24 +226,9 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
 
  
 
-    <div class="update-dependent-information">
-        
-    </div>
-
-    <div class="update-contributor-information">
-        
-    </div>
    
 
-    <!-- <script src="js/member-script.js"> </script> -->
-    <!-- <script src="js/contributor-script.js"></script> -->
-    <script>
-    window.addEventListener('DOMContentLoaded', function() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('updated') === '1') {
-            alert('Your details have been updated!');
-        }
-    });
-    </script>
+    <script src="../js/script.js"> </script>
+    
 </body>
 </html>

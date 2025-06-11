@@ -1,3 +1,5 @@
+<!-- THIS FILE IS NOT IN USED. dashboard.php is used instead for displaying member information. -->
+
 <?php
 session_start();
 include 'config.php'; // Ensure database connection
