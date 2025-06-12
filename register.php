@@ -1,3 +1,56 @@
+<?php
+// session_start();
+// include("config.php");
+
+// $error = "";
+// $success = "";
+
+// if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
+//     $pin = trim($_POST["pin"]);
+//     $firstName = trim($_POST["first_name"]);
+//     $middleName = trim($_POST["middle_name"]);
+//     $lastName = trim($_POST["last_name"]);
+//     $dob = $_POST["dob"];
+//     $sex = $_POST["sex"];
+//     $email = trim($_POST["email"]);
+//     $mobile = trim($_POST["mobile"]);
+//     $password = $_POST["password"];
+
+//     $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
+//     $check->bind_param("s", $email);
+//     $check->execute();
+//     $check->store_result();
+
+//     if ($check->num_rows > 0) {
+//         $error = "Email already registered.";
+//     } else {
+//         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+//         $stmt = $conn->prepare("INSERT INTO users (pin, first_name, middle_name, last_name, dob, sex, email, mobile, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+//         $stmt->bind_param("sssssssss", $pin, $firstName, $middleName, $lastName, $dob, $sex, $email, $mobile, $hashedPassword);
+
+//         if ($stmt->execute()) {
+//             $success = "Account created! You can now log in.";
+
+//             $memberName = trim($firstName . ' ' . $middleName . ' ' . $lastName);
+
+//             // Insert into memberDetails table
+//             $stmt2 = $conn->prepare("INSERT INTO memberDetails (memberName, birthdate, sex, emailAdd, mobileNo) VALUES (?, ?, ?, ?, ?)");
+//             $stmt2->bind_param("sssss", $memberName, $dob, $sex, $email, $mobile);
+//             $stmt2->execute();
+//             $stmt2->close();
+//         } else {
+//             $error = "Something went wrong.";
+//         }
+
+//         $stmt->close();
+//     }
+
+//     $check->close();
+// }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,55 +179,3 @@
 
 </body>
 </html>
-
-
-<?php
-session_start();
-include("config.php");
-
-$error = "";
-$success = "";
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
-    $pin = trim($_POST["pin"]);
-    $firstName = trim($_POST["first_name"]);
-    $middleName = trim($_POST["middle_name"]);
-    $lastName = trim($_POST["last_name"]);
-    $dob = $_POST["dob"];
-    $sex = $_POST["sex"];
-    $email = trim($_POST["email"]);
-    $mobile = trim($_POST["mobile"]);
-    $password = $_POST["password"];
-
-    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $check->bind_param("s", $email);
-    $check->execute();
-    $check->store_result();
-
-    if ($check->num_rows > 0) {
-        $error = "Email already registered.";
-    } else {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $stmt = $conn->prepare("INSERT INTO users (pin, first_name, middle_name, last_name, dob, sex, email, mobile, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $pin, $firstName, $middleName, $lastName, $dob, $sex, $email, $mobile, $hashedPassword);
-
-        if ($stmt->execute()) {
-            $success = "Account created! You can now log in.";
-
-            $memberName = trim($firstName . ' ' . $middleName . ' ' . $lastName);
-
-            // Insert into memberDetails table
-            $stmt2 = $conn->prepare("INSERT INTO memberDetails (memberName, birthdate, sex, emailAdd, mobileNo) VALUES (?, ?, ?, ?, ?)");
-            $stmt2->bind_param("sssss", $memberName, $dob, $sex, $email, $mobile);
-            $stmt2->execute();
-            $stmt2->close();
-        } else {
-            $error = "Something went wrong.";
-        }
-
-        $stmt->close();
-    }
-
-    $check->close();
-}

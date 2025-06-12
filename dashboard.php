@@ -286,13 +286,13 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
 
  
 
-    <div class="update-dependent-information">
+    <!-- <div class="update-dependent-information">
         
     </div>
 
     <div class="update-contributor-information">
         
-    </div>
+    </div> -->
    
 
     <!-- <script src="js/member-script.js"> </script> -->

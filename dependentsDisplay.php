@@ -177,11 +177,13 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                         <p>Dependent Information</p>
                     </div>
 
-                    <a class="" href="../html/dependent-update.html">
+
+                    <a class="" href="updateDependents.php">
                         <div class="button" onclick="">
                             <button class="update-button">Update</button>
                         </div>
                     </a>
+
                     
                 </div>
 
@@ -191,22 +193,37 @@ $civil_status_display = $civil_status_map[$memberData['civilStatus']] ?? 'Unknow
                         <div class="spouse-information-title">Dependent Information</div>
 
                         <div class="spouse-information-list">
-
-                            <div class="dependent-name">
-                                <!-- <div>Dependent name:</div> -->
-                            <?php if ($dependentResult->num_rows > 0): ?>
-                                <ul>
-                                    <?php while ($row = $dependentResult->fetch_assoc()): ?>
-                                        <li><strong>Name:</strong> <?php echo htmlspecialchars($row['depName']); ?> (Relationship: <?php echo htmlspecialchars($row['relationship']); ?>)</li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Relationship</th>
+                                        <th>PWD Eligible</th>
+                                        <th>Mononym</th>
+                                        <th>Middle Name</th>
+                                        <th>Birthdate</th>
+                                        <th>Citizenship</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($dep = $dependentResult->fetch_assoc()) : ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($dep['depName']); ?></td>
+                                            <td><?php echo htmlspecialchars($dep['relationship']); ?></td>
+                                            <td><?php echo htmlspecialchars($dep['depPWD']); ?></td>
+                                            <td><?php echo htmlspecialchars($dep['depMononym']); ?></td>
+                                            <td><?php echo htmlspecialchars($dep['depMiddleName']); ?></td>
+                                            <td><?php echo htmlspecialchars($dep['depBirthdate']); ?></td>
+                                            <td><?php echo htmlspecialchars($dep['depCitizenship']); ?></td>
+                                        </tr>
                                     <?php endwhile; ?>
-                                </ul>
-                            <?php else: ?>
-                                <p>No dependents registered.</p>
-                            <?php endif; ?>
+                                </tbody>
+                            </table>
+                        <a class="" href="update_dependents.php">
+                            <div class="button" onclick="">
+                                <button class="add-button">Add/Delete</button>
                             </div>
-
-                       
-
+                        </a>
                         </div>
                         
                     </div>

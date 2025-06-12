@@ -282,7 +282,7 @@ if (!empty($member['mailingAddress'])) {
                     </div> 
 
                     <div style="display:flex; justify-content: space-between;" >
-                        <button class="cancel-button" onclick="window.location.href='dashboard.php'">Cancel</button>
+                        <button class="cancel-button" onclick="window.location.href='contributorDisplay.php'">Cancel</button>
                         <!-- <button class="save-button">Update</button> -->
                     </div>    
 

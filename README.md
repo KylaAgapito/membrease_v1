@@ -20,8 +20,8 @@ Built primarily with **PHP** for backend efficiency—supported by **CSS,** and 
 
 A huge shoutout to every member who brought this project to life:
 
-- **Kyla Marie A. Agapito** – Back-end
-- **Stacey D. Ballares** – Back-end
-- **Gaile C. Espinosa** – Front-end
-- **Nate Sebastian P. Libao** – Back-end
-- **Zient Gyber U. Perez** – Front-end
+- **Kyla Marie A. Agapito** – Fullstack Engineer
+- **Stacey D. Ballares** – Back-end Engineer
+- **Gaile C. Espinosa** – UI/UX Engineer
+- **Nate Sebastian P. Libao** – Database Manager
+- **Zient Gyber U. Perez** – UI/UX Engineer

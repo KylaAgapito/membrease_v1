@@ -236,7 +236,8 @@ a{
     color: #275853;
 }
 
-.update-button, .cancel-button, .save-button{
+
+.update-button, .cancel-button, .save-button, .add-button, .delete-button{
     width: 134px;
     height: 55px;
     background-color: #275853;
@@ -251,11 +252,11 @@ a{
 
 }
 
-.update-button:hover, .cancel-button:hover, .save-button:hover{
+.update-button:hover, .cancel-button:hover, .save-button:hover, .add-button:hover, .delete-button:hover{
     background-color: #27585399;
 }
 
-.update-button:active, .cancel-button:active, .save-button:active{
+.update-button:active, .cancel-button:active, .save-button:active, .add-button:active, .delete-button:active{
     background-color: #275853;
     color: #ffffff;
 }
@@ -280,7 +281,7 @@ a{
 
 }
 
-.personal-information-title, .contact-information-title, .spouse-information-title, .update-information-title{
+.personal-information-title, .contact-information-title, .spouse-information-title, .update-information-title, .add-information-title{
     background-color: #3C8A82;
     font-size: 24px;
     padding: 16px 32px;
@@ -687,4 +688,86 @@ a{
 .about-cards-parent-1{
     display: flex;
     background-color: #3C8A82;
+}
+
+/* Dependents Table Styling */
+.spouse-information-list table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-family: Montserrat, Sans-Serif;
+    margin: 0 auto 24px auto;
+    /* padding: 32px; */
+    margin-top: 32px;
+}
+
+.spouse-information-list thead {
+    background: #3C8A82;
+    color: #fff;
+}
+
+.spouse-information-list th, 
+.spouse-information-list td {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.spouse-information-list th {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.spouse-information-list tbody tr {
+    border-bottom: 1px solid #e6f4ec;
+    transition: background 0.2s;
+}
+
+.spouse-information-list tbody tr:last-child {
+    border-bottom: none;
+}
+
+.spouse-information-list tbody tr:hover {
+    background: #e6f4ec;
+}
+
+.spouse-information-list td {
+    color: #275853;
+}
+
+.spouse-information-list th:first-child,
+.spouse-information-list td:first-child {
+    border-top-left-radius: 12px;
+}
+.spouse-information-list th:last-child,
+.spouse-information-list td:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* Match select styling to text inputs in dashboard.css */
+.form-group select.form-control {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 16px;
+    border: 1px solid #3C8A82;
+    border-radius: 4px;
+    background: #f8f8f8;
+    color: #275853;
+    font-family: Montserrat, Sans-Serif;
+    min-width: 120px;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.form-group select.form-control:focus {
+    outline: 1px solid #275853;
+    background: #fff;
 }

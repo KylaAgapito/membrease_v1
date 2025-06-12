@@ -1,0 +1,443 @@
+html, body, .parent, .main, .dashboard {
+    height: 100vh;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: Montserrat, Roboto, Poppins
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.parent{
+    height: 100svh;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 1rem 2rem;
+    background-color: #3C8A82;
+    color: #ffffff;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+}
+
+.logo-title{
+    margin-left: 12px;
+}
+
+.logo-title > div:first-child{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo-title > div:last-child{
+    font-size: 12px;
+    font-style: italic;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.search-bar i{
+    position: absolute;
+    color: #3C8A82;
+    left: 12px;
+}
+
+.search-bar input{
+    width: 520px;
+    height: 36px;
+    padding-left: 36px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 20px;
+    border: none;
+}
+
+.account{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: solid 1px #ffffff90;
+    padding-left: 12px;
+}
+
+.profile-picture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-user{
+    font-size: 32px;
+}
+
+.member-name-id-wrapper{
+    margin-left: 8px;
+}
+
+.member-name-id-wrapper > div:first-child{
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.member-name-id-wrapper > div:last-child{
+    font-size: 12px;
+}
+
+.main{
+    display: grid;
+    grid-template-columns: 18% 1fr;
+    height: 100%;
+}
+
+.sidebar {
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+    color: #275853;
+    box-shadow: 4px 0 8px -2px rgba(0, 0, 0, 0.115);
+    z-index: 1;
+}
+
+.sidebar-title{
+    font-size: 24px;
+    font-weight: bold;
+    color: #275853;
+}
+
+.sidebar-tools{
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: 500;
+    border-top: solid 1px #275853;
+}
+
+.sidebar-tools div{
+    display: flex;
+    align-items: center;    
+    height: 40px;
+    padding: 8px;
+    margin: 8px 0px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 16px;
+}
+
+.sidebar-tools svg{
+    margin: 12px;
+}
+
+.sidebar-tools div:hover{
+    background-color: #275853;
+    color: #ffffff;
+}
+
+.sidebar-tools svg path {
+    fill: #275853;
+    transition: fill 0.2s ease-in-out;
+}
+
+.sidebar-tools div:hover svg path {
+    fill: #ffffff;
+}
+
+.sidebar-tools svg:hover{
+    fill: #ffffff;
+}
+
+.about-logout{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.dashboard {
+    height: 100%; 
+    background-color: #E6F4EC;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    overflow-y: auto;
+}
+
+.section-1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.dashboard-title{
+    font-size: 24px;
+    font-weight: bold;
+    color: #275853;
+}
+
+.update-button, .cancel-button, .save-button, .delete-button{
+    width: 134px;
+    height: 55px;
+    background-color: #275853;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.1s ease-in-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.115);
+    margin: 4px;
+}
+
+.update-button:hover, .cancel-button:hover, .save-button:hover{
+    background-color: #27585399;
+}
+
+.delete-button{
+    background-color: #d32f2f;
+}
+
+.delete-button:hover{
+    background-color: #d32f2f99;
+}
+
+.update-button:active, .cancel-button:active, .save-button:active, .delete-button:active{
+    transform: scale(0.98);
+}
+
+/* Dependent Forms Styling */
+.dependents-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.add-dependent-section, .existing-dependents-section{
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #275853;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.115);
+}
+
+.add-dependent-section h3, .existing-dependents-section h3{
+    background-color: #3C8A82;
+    font-size: 24px;
+    padding: 16px 32px;
+    color: #ffffff;
+    margin: 0;
+}
+
+.add-dependent-form, .update-dependent-information{
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.dependent-card{
+    border: 2px solid #E6F4EC;
+    border-radius: 12px;
+    margin: 16px 32px;
+    padding: 16px;
+    background-color: #f8fffe;
+}
+
+.dependent-card h4{
+    color: #3C8A82;
+    font-size: 20px;
+    margin: 0 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #E6F4EC;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label{
+    font-weight: bold;
+    color: #275853;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-control{
+    padding: 12px;
+    border: 2px solid #E6F4EC;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #275853;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus{
+    outline: none;
+    border-color: #3C8A82;
+    box-shadow: 0 0 0 3px rgba(60, 138, 130, 0.1);
+}
+
+.sex-input{
+    display: flex;
+    align-items: center;
+}
+
+.sex-input .options{
+    display: flex;
+    gap: 1rem;
+}
+
+.sex-input .options label{
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    margin: 0;
+    cursor: pointer;
+}
+
+.sex-input .options input[type="radio"]{
+    margin-right: 8px;
+    accent-color: #3C8A82;
+}
+
+/* Full width fields */
+.dependent-name, .relationship, .dependent-birthdate, .citizenship, .disability{
+    grid-column: span 1;
+}
+
+.dependent-sex{
+    grid-column: span 2;
+}
+
+/* Button styling */
+.save-button{
+    width: 180px;
+    height: 45px;
+    background-color: #3C8A82;
+    font-size: 16px;
+    margin: 16px 32px;
+}
+
+.delete-button{
+    width: 150px;
+    height: 40px;
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+/* Action buttons container */
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .add-dependent-form, .update-dependent-information{
+        grid-template-columns: 1fr;
+    }
+    
+    .dependent-sex{
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .main{
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar{
+        display: none;
+    }
+    
+    .dashboard{
+        padding: 1rem;
+    }
+    
+    .section-1{
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .update-button, .cancel-button, .save-button, .delete-button{
+        width: 100%;
+    }
+}
+
+/* No dependents message */
+.existing-dependents-section p{
+    padding: 32px;
+    text-align: center;
+    color: #275853;
+    font-style: italic;
+}
+
+/* Form validation styling */
+.form-control:invalid{
+    border-color: #d32f2f;
+}
+
+.form-control:valid{
+    border-color: #4caf50;
+}
+
+/* Loading states */
+.save-button:disabled, .delete-button:disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Hover effects for form elements */
+.form-control:hover{
+    border-color: #3C8A82;
+}
+
+select.form-control{
+    cursor: pointer;
+}
+
+/* Success/Error messages */
+.message{
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 16px 32px;
+    font-weight: bold;
+}
+
+.message.success{
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error{
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
