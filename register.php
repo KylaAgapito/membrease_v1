@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["continue"])) {
         <p>Mobile Number*</p>
         <input
           type="text" placeholder="MOBILE NUMBER" name = "mobileNo"
-          pattern="[0-9]{10}"
+          pattern="[0-9]{11}"
           required
         />
       </div>
