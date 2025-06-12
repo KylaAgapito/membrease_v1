@@ -1,3 +1,57 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['PIN'])) {
+    header("Location: register.php");
+    exit();
+}
+
+include("config.php"); // Make sure this file connects to your DB
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["create"])) {
+    $password = $_POST['password'];
+    $confirm = $_POST['confirm_password'];
+
+    // Password validation (add your own as needed)
+    $pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[`~!@#$%^&*()\-_=+\[\]{}|;:'\"<>,.\/?]).{8,32}$/";
+    if ($password !== $confirm) {
+        $error = "Passwords do not match.";
+    } elseif (!preg_match($pattern, $password)) {
+        $error = "Password does not meet requirements.";
+    } else {
+        // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $hashedPassword = $password;
+        $memberName = trim($_SESSION['first_name'] . ' ' . $_SESSION['middle_name'] . ' ' . $_SESSION['last_name']);
+
+        $stmt = $conn->prepare("INSERT INTO registration (PIN, user_password, memberName, birthdate, sex, mobileNo, emailAdd) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "sssssss",
+            $_SESSION['PIN'],
+            $hashedPassword,
+            $memberName,
+            $_SESSION['birthdate'],
+            $_SESSION['sex'],
+            $_SESSION['mobileNo'],
+            $_SESSION['emailAdd']
+        );
+
+        if ($stmt->execute()) {
+            // Clear session data if needed
+            session_unset();
+            session_destroy();
+            echo "<script>
+                alert('Registration complete! Returning to login form.');
+                window.location.href = 'index.php';
+            </script>";
+            exit();   
+        } else {
+            $error = "Something went wrong. Please try again.";
+        }
+        $stmt->close();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +83,11 @@
           <h2 class="basicInfo">Unlock your Experience</h2>
           <h4 class="desc">Complete your setup to start exploring.</h4>
       </div>
-
-  <div class="password">
+<form method="POST" action="password.php">
+    <?php if (isset($error)): ?>
+      <div style="color:red; margin-bottom:10px;"><?php echo $error; ?></div>
+    <?php endif; ?>
+      <div class="password">
     <div class="passreq">
       <div class="description">
         <p>Password must meet the following requirements:</p>
@@ -46,17 +103,31 @@
     </div>
     <div class="prefpass">
       <p>Preferred Password</p>
-      <input type="text" placeholder="PREFERRED PASSWORD">
+      <input type="password" name="password" placeholder="PREFERRED PASSWORD" required>
     </div>
     <div class="confirm">
       <p>Confirm Password</p>
-      <input type="text" placeholder="CONFIRM PASSWORD">
+      <input type="password" name="confirm_password" placeholder="CONFIRM PASSWORD" required>
     </div>
-    <button class="create">
+    <button class="create" type="submit" name="create">
       Create Account
-        <div class="arrow-wrapper">
-        <div class="arrow"></div></button>
+      <div class="arrow-wrapper">
+        <div class="arrow"></div>
+      </div>
     </button>
   </div>
+</form>
+
+    <!-- <script>
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('updated') === '1') {
+            alert('Information added successfully!');
+            window.location.href = 'contributorDisplay.php';
+        }
+    });
+    </script> -->
+    
 </body>
 </html>

@@ -49,6 +49,22 @@
 //     $check->close();
 // }
 
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["continue"])) {
+    $_SESSION['PIN'] = $_POST['PIN'];
+    $_SESSION['first_name'] = $_POST['first_name'];
+    $_SESSION['middle_name'] = $_POST['middle_name'];
+    $_SESSION['last_name'] = $_POST['last_name'];
+    $_SESSION['birthdate'] = $_POST['birthdate'];
+    $_SESSION['sex'] = $_POST['sex'];
+    $_SESSION['emailAdd'] = $_POST['emailAdd'];
+    $_SESSION['mobileNo'] = $_POST['mobileNo'];
+    header("Location: password.php");
+    exit();
+}
+
+
 ?>
 
 <!DOCTYPE html>
