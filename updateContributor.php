@@ -25,6 +25,7 @@ if ($pin) {
 }
 
 
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare("UPDATE memberdetails SET 
@@ -267,8 +268,14 @@ if (!empty($member['mailingAddress'])) {
                                         
                                         <div class="income-proof">
                                             <div class="form-group">
-                                            <label>Income Proof: </label>
-                                            <input type="text" name="incomeProof" value="<?= htmlspecialchars($member['incomeProof'] ?? 'Not Available') ?>" class="form-control">
+                                                <label>Income Proof: </label>
+                                                <select name="incomeProof" class="form-control" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="ITR" <?= (isset($member['incomeProof']) && $member['incomeProof'] == 'ITR') ? 'selected' : '' ?>>ITR</option>
+                                                    <option value="COE" <?= (isset($member['incomeProof']) && $member['incomeProof'] == 'COE') ? 'selected' : '' ?>>COE</option>
+                                                    <option value="PA" <?= (isset($member['incomeProof']) && $member['incomeProof'] == 'PA') ? 'selected' : '' ?>>PA</option>
+                                                    <option value="NONE" <?= (isset($member['incomeProof']) && $member['incomeProof'] == 'NONE') ? 'selected' : '' ?>>NONE</option>
+                                                </select>
                                             </div>
                                         </div>
                                     

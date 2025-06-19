@@ -46,6 +46,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $member_updated = $stmt->execute();
     $stmt->close();
 
+    // --- Add this block to update registration table as well ---
+    $stmt = $conn->prepare("UPDATE registration SET memberName=?, birthdate=?, sex=?, mobileNo=?, emailAdd=? WHERE PIN=?");
+    $stmt->bind_param(
+        "ssssss",
+        $_POST['memberName'],
+        $_POST['birthdate'],
+        $_POST['sex'],
+        $_POST['mobileNo'],
+        $_POST['emailAdd'],
+        $pin
+    );
+    $registration_updated = $stmt->execute();
+    $stmt->close();
+    // ----------------------------------------------------------
+
     // Update spouse if needed
     $spouse_updated = true;
     if (!empty($member['spouseID'])) {
